@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-svc-deployment
+  labels:
+    app: notification-svc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: notification-svc
+  template:
+    metadata:
+      labels:
+        app: notification-svc
+    spec:
+      containers:
+        - name: notification-svc
+          image: notification-svc
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8085
+          env:
+            - name: SERVICE_NOTIFICATION_EXIT
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-svc-service
+spec:
+  selector:
+    app: notification-svc
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8085
+      targetPort: 8085

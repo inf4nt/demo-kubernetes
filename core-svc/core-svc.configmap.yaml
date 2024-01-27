@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: core-svc-configmap
+data:
+  notification_svc_url: "notification-svc-service:8085"

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-svc-deployment
+  labels:
+    app: core-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-svc
+  template:
+    metadata:
+      labels:
+        app: core-svc
+    spec:
+      containers:
+        - name: core-svc
+          image: core-svc
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8086
+          env:
+            - name: SERVICE_NOTIFICATION_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: core-svc-configmap
+                  key: notification_svc_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: core-svc-service
+spec:
+  selector:
+    app: core-svc
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8086
+      targetPort: 8085
