@@ -18,7 +18,7 @@ public class NotificationSvcController {
 
     @SneakyThrows
     @GetMapping
-    public Object get() {
+    public Object index() {
         Thread.sleep(200);
         return new LinkedHashMap<>() {{
             put("application_name", "notification-svc");

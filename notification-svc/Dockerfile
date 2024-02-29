@@ -1,5 +1,7 @@
 FROM openjdk:21
 
+ENV SERVICE_NOTIFICATION_EXIT="false"
+
 COPY target/*.jar application.jar
 
 EXPOSE 8085
