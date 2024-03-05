@@ -19,7 +19,7 @@ RUN apk add upx
 
 RUN upx --lzma --best native-image-svc -o native-image-svc.upx
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 COPY --from=compress native-image-svc.upx native-image-svc.upx
 
