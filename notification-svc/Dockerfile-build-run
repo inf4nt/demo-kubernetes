@@ -1,17 +1,17 @@
-FROM maven:3.9.6 as build
+FROM maven:3.9.6 AS build
 
-WORKDIR project
+WORKDIR /project
 
-COPY . /project
+COPY pom.xml .
+RUN mvn verify clean --fail-never
 
-RUN mvn clean install
+COPY src/ src/
+RUN mvn package
 
 FROM openjdk:21
 
-ENV SERVICE_NOTIFICATION_EXIT="false"
+EXPOSE 8085
 
 COPY --from=build /project/target/*.jar application.jar
-
-EXPOSE 8085
 
 CMD ["java", "-jar", "application.jar"]
